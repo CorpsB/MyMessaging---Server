@@ -6,7 +6,10 @@ int main()
 {
     boost::asio::io_context io;
 
-    Server server(io, 5555);
+    DataBase db("db.db");
+    MessageRepository msgRepo(db);
+
+    Server server(io, 5555, msgRepo);
     server.start();
 
     io.run();

@@ -42,3 +42,7 @@
 
 # Database
 db.db
+
+#Exec :
+MyMessaging-server
+MyMessaging-server.exe

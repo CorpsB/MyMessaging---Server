@@ -16,6 +16,8 @@
 #include "DataBase/Models/User.hpp"
 #include "DevTools/Error.hpp"
 
+#include "DataBase/Db/Database.hpp"
+#include "DataBase/Repository/MessageRepository.hpp"
 #include "Net/Server.hpp"
 
 using tcp = boost::asio::ip::tcp;

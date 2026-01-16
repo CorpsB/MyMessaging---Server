@@ -1,4 +1,7 @@
-#include "../Include.hpp"
+#pragma once
+
+
+#include "../../Include.hpp"
 
 struct message_s {
     unsigned int MessageID;
@@ -10,4 +13,4 @@ struct message_s {
     std::string Content;
     std::string CreatedAt;
     std::string EditedDate;
-}message_t;
+};

@@ -1,4 +1,6 @@
-#include "../Include.hpp"
+#pragma once
+
+#include "../../Include.hpp"
 
 struct categories_s {
     unsigned int CategoryID;

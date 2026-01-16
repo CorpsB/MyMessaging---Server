@@ -39,6 +39,10 @@ CREATE TABLE Categories (
     Position INTEGER NOT NULL UNIQUE
 );
 
+INSERT INTO Categories (CategoryName, Position)
+VALUES
+    ('Default', 0);
+
 CREATE TABLE Channels (
     ChannelID INTEGER PRIMARY KEY,
     Position INTEGER NOT NULL,
@@ -47,6 +51,10 @@ CREATE TABLE Channels (
 
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
+
+INSERT INTO Channels (Position, SalonName, CategoryID)
+VALUES
+    (0, 'Default', 1);
 
 CREATE TABLE Messages (
     MessageID INTEGER PRIMARY KEY,

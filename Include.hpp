@@ -3,6 +3,9 @@
 #include <string>
 #include <sqlite3.h>
 #include <exception>
+#include <boost/asio.hpp>
+#include <memory>
+#include <string>
 
 //Models :
 #include "DataBase/Models/Role.hpp"
@@ -12,3 +15,7 @@
 #include "DataBase/Models/Role.hpp"
 #include "DataBase/Models/User.hpp"
 #include "DevTools/Error.hpp"
+
+#include "Net/Server.hpp"
+
+using tcp = boost::asio::ip::tcp;

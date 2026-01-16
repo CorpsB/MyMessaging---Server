@@ -1,4 +1,7 @@
-#include "../Include.hpp"
+#pragma once
+
+
+#include "../../Include.hpp"
 
 struct user {
     int UserID;
@@ -7,4 +10,4 @@ struct user {
     Role_t role;
     
     bool IsConnected = false;
-}user_t;
+};

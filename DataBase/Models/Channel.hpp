@@ -1,4 +1,7 @@
-#include "../Include.hpp"
+#pragma once
+
+
+#include "../../Include.hpp"
 
 struct channels {
     unsigned int ChannelID;

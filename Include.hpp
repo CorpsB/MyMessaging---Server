@@ -18,6 +18,10 @@
 
 #include "DataBase/Db/Database.hpp"
 #include "DataBase/Repository/MessageRepository.hpp"
+#include "DataBase/Repository/CategoryRepository.hpp"
+#include "DataBase/Repository/ChannelRepository.hpp"
+#include "DataBase/Repository/RoleRepository.hpp"
+#include "DataBase/Repository/UserRepository.hpp"
 #include "Net/Server.hpp"
 
 using tcp = boost::asio::ip::tcp;

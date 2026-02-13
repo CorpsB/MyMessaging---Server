@@ -1,33 +1,35 @@
 ##
 ## EPITECH PROJECT, 2025
-## mydiscord lib
+## B-NWP-400-STG-4-1-myftp-noe.carabin
 ## File description:
 ## Makefile
 ##
 
-.PHONY: all clean fclean re
+SRC	=	Src/main.c	\
+		Src/CommandsFinder.c	\
+		Src/InitServer.c	\
+		Src/NetworkManagment.c	\
+		Src/cmd/ping.c	\
+		Src/cmd/join.c	\
+		Src/cmd/send.c	\
 
-SRC_DIR = .
+OBJ	=	$(SRC:.c=.o)
 
-SRC     = $(SRC_DIR)/Src/Main.cpp \
-          $(SRC_DIR)/Net/Server.cpp \
-          $(SRC_DIR)/DataBase/Db/Database.cpp \
-          $(SRC_DIR)/DataBase/Repository/MessageRepository.cpp \
+NAME =	my-messaging-server
 
-FLAGS	= -std=c++20 -Wall -Wextra -Werror -g
-
-OBJ	=	$(SRC:.cpp=.o)
-NAME	=	MyMessaging-server
+CFLAGS = -g
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	g++ -o $(NAME) $(OBJ) $(FLAGS) -lsqlite3 -lboost_system -pthread
+$(NAME):	$(OBJ)
+	gcc -o $(NAME) $(OBJ) -lsqlite3
 
 clean:
 	rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+		rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

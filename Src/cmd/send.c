@@ -48,27 +48,37 @@ int send_pro(char buf[1024], client_t **clients, int i, server_t *serv)
         return -1;
     sqlite3_bind_int(stmt, 1, message_id);
 
-    const char *created_at = "";
+    // Copy the created_at timestamp into a local buffer. Pointers returned by
+    // sqlite3_column_text remain valid only until the next call to
+    // sqlite3_step() or sqlite3_finalize(), so we must copy the string before
+    // finalising the prepared statement. Use a fixed-size buffer to avoid
+    // referencing freed memory after sqlite3_finalize().
+    char created_at_buf[32] = {0};
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         const unsigned char *tmp = sqlite3_column_text(stmt, 0);
-        if (tmp)
-            created_at = (const char *)tmp;
+        if (tmp) {
+            // Copy at most sizeof(created_at_buf)-1 characters to ensure
+            // null-termination.
+            strncpy(created_at_buf, (const char *)tmp, sizeof(created_at_buf) - 1);
+            created_at_buf[sizeof(created_at_buf) - 1] = '\0';
+        }
     }
     sqlite3_finalize(stmt);
 
+    // Broadcast the new message to all connected clients regardless of which
+    // channel they have currently joined. The client will filter messages
+    // client-side based on the channel ID. Originally this loop only sent
+    // messages to clients whose current_channel matched channel_id. To
+    // propagate messages to all clients, remove that condition.
     for (int k = 0; k < MAX_CLIENTS; ++k) {
         if (!clients[k] || clients[k]->fd.fd < 0)
             continue;
-
-        if (clients[k]->current_channel != channel_id)
-            continue;
-
         dprintf(clients[k]->fd.fd,
                 "MSG %d %d %d %s %d %s\n",
                 message_id,
                 channel_id,
                 1,
-                created_at,
+                created_at_buf,
                 1,
                 content);
     }

@@ -1,4 +1,5 @@
 #include "../Include/include.h"
+#include <signal.h>
 
 int help_func(int exit)
 {
@@ -27,10 +28,10 @@ bool is_error(char *jingle)
 
 int main(int ac, char **av)
 {
+
+    signal(SIGPIPE, SIG_IGN);
     if (av[1] && strcmp(av[1], "-h") == 0)
         return help_func(0);
-    // if (ac != 3)
-    //     return help_func(84);
     if (is_error(av[1]))
         return 84;
     init_strcut(av[1], av[2]);

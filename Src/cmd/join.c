@@ -21,14 +21,19 @@ int join(char *cmd_line, client_t **client, int i, server_t *serv)
 
     client[i]->current_channel = channel_id;
 
+    // Fetch all messages for the requested channel in ascending order so that
+    // clients receive the full history, not just a limited subset. The
+    // original implementation limited the result set to the 50 most recent
+    // messages. Here we remove the LIMIT clause to satisfy the requirement
+    // of sending all messages stored in the database when a client joins a
+    // channel.
     const char *sql =
         "SELECT MessageID, ChannelID, AuthorID, "
         "strftime('%Y-%m-%dT%H:%M:%S', CreatedAt) AS CreatedAt, "
         "IsVisible, Content "
         "FROM Messages "
         "WHERE ChannelID = ? AND IsVisible IN (0,1) "
-        "ORDER BY MessageID DESC "
-        "LIMIT 50;";
+        "ORDER BY MessageID ASC;";
 
     if (sqlite3_prepare_v2(serv->db, sql, -1, &stmt, NULL) != SQLITE_OK)
         return -1;

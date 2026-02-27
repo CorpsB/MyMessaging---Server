@@ -12,6 +12,8 @@ SRC	=	Src/main.c	\
 		Src/cmd/ping.c	\
 		Src/cmd/join.c	\
 		Src/cmd/send.c	\
+		Src/cmd/channel_admin.c	\
+		Src/cmd/msg.c	\
 
 OBJ	=	$(SRC:.c=.o)
 

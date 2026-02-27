@@ -61,5 +61,31 @@ void ping(char buf[1024], client_t **clients, int i, server_t *serv);
 int join(char *cmd_line, client_t **client, int i, server_t *serv);
 int send_pro(char buf[1024], client_t **clients, int i, server_t *serv);
 
+/* Channel administration commands */
+int create_channel_cmd(char *cmd_line, client_t **client, int i, server_t *serv);
+int delete_channel_cmd(char *cmd_line, client_t **client, int i, server_t *serv);
+int rename_channel_cmd(char *cmd_line, client_t **client, int i, server_t *serv);
+
+/*
+ * Handle a request to list all channels. When a client sends the command "LIST",
+ * the server will respond by first sending a CLEARCHANNELS line to instruct the
+ * client to clear its local channel list, followed by one CHANNEL line per
+ * channel in the database (format: "CHANNEL <id> <name>").
+ *
+ * @param cmd_line The raw command line received from the client (ignored).
+ * @param client An array of pointers to connected clients used for broadcasting.
+ * @param i The index of the requesting client in the array.
+ * @param serv The server state containing the SQLite database.
+ * @return 0 on success, -1 on error.
+ */
+int list_channels_cmd(char *cmd_line, client_t **client, int i, server_t *serv);
+
+/*
+ * Send the complete set of messages stored in the database to the requesting
+ * client. Implemented in Src/cmd/msg.c. The server does not broadcast
+ * these messages to other clients; it merely retrieves the stored history.
+ */
+int history_cmd(char *cmd_line, client_t **client, int i, server_t *serv);
+
 
 #endif /* !PICTURE_HPP_ */
